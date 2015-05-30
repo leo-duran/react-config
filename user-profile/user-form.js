@@ -21,8 +21,6 @@ class UserForm extends React.Component {
     newUser[fieldName] = value;
 
     this.setState(assign(this.props.user, this.state, newUser));
-
-    console.log(this.state);
   }
 
   render() {
