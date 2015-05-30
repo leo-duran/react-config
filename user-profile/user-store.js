@@ -2,17 +2,15 @@ import React from 'react';
 import assign from 'lodash/object/assign'
 import EventEmitter from 'events'
 import clone from 'lodash/lang/clone';
+import appDispatcher from './app-dispatcher.js';
+
+var _user = {firstName: '', lastName: '', email: ''};
 
 class UserStore extends EventEmitter {
   getUser() {
-    var state = clone(this._user) || {firstName: '', lastName: '', email: ''}
+    var state = clone(_user);
 
     return state;
-  }
-
-  setUser(user) {
-    this._user = user;
-    this.emit('change');
   }
 
   listen(listener) {
@@ -24,4 +22,16 @@ class UserStore extends EventEmitter {
   }
 }
 
-export default new UserStore()
+var userStore = new UserStore();
+
+userStore.dispatchToken = appDispatcher.register(function(payload){
+  switch(payload.actionType){
+    case 'ADD_USER':
+      _user = payload.user;
+      userStore.emit('change');
+
+      break;
+  }
+});
+
+export default userStore

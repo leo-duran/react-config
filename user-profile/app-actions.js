@@ -1,8 +1,11 @@
-import UserStore from './user-store.js';
+import appDispatcher from './app-dispatcher.js';
 
 class ProfileAction {
   updateUser(user) {
-    UserStore.setUser(user);
+    appDispatcher.dispatch({
+      actionType: 'ADD_USER',
+      user
+    });
   }
 }
 
