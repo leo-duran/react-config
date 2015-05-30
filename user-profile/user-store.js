@@ -18,10 +18,10 @@ class UserStore extends EventEmitter {
   listen(listener) {
     this.addListener('change', listener);
   }
-  ß
+
   unlisten(listener) {
     this.removeListener('change', listener);
   }
 }
 
-export default UserStore
+export default new UserStore()

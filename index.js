@@ -6,7 +6,6 @@ import UserStore from './user-profile/user-store.js';
 import AppActions from './user-profile/app-actions.js';
 
 var appActions = new AppActions();
-var userStore = new UserStore();
 
 class App extends React.Component {
   constructor() {
@@ -24,11 +23,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    userStore.listen(this.onStoreChange);
+    UserStore.listen(this.onStoreChange);
   }
 
   componentDidUnmount() {
-    userStore.unlisten(this.onStoreChange);
+    UserStore.unlisten(this.onStoreChange);
   }
 
   onStoreChange() {
@@ -36,7 +35,7 @@ class App extends React.Component {
   }
 
   getStateFromStore() {
-    var state = userStore.getUser()
+    var state = UserStore.getUser()
 
     return state;
   }
