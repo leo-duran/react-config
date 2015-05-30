@@ -2,6 +2,7 @@ import React from 'react'
 import assign from 'lodash/object/assign'
 import UserForm from './user-profile/user-form.js';
 import UserProfile from './user-profile/user-profile.js';
+import UserStore from './user-profile/user-store.js';
 
 class App extends React.Component {
   constructor() {
@@ -9,20 +10,36 @@ class App extends React.Component {
 
     this.updateUser = this.updateUser.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
+    this.getStateFromStore = this.getStateFromStore.bind(this);
+    this.onStoreChange = this.onStoreChange.bind(this);
 
     this.state = {
       editMode: true,
-      userInfo: {
-        firstName: 'Jerry',
-        lastName: 'Seinfeld',
-        email: 'jerry@funnyman.com'
-      }
+      userInfo: this.getStateFromStore()
     }
+  }
+
+  componentDidMount() {
+    UserStore.listen(this.onStoreChange);
+  }
+
+  componentDidUnmount() {
+    UserStore.unlisten(this.onStoreChange);
+  }
+
+  onStoreChange() {
+    this.setState({userInfo: this.getStateFromStore()});
+  }
+
+  getStateFromStore() {
+    var state = UserStore.getUser()
+
+    return state;
   }
 
   updateUser(user) {
     if (user) {
-      this.setState({userInfo: user});
+      UserStore.setUser(user);
     }
   }
 
@@ -34,7 +51,7 @@ class App extends React.Component {
     var form;
 
     if (this.state.editMode) {
-      form = <UserForm user={this.state.userInfo} updateUser={this.updateUser} toggleEdit={this.toggleEdit} />;
+      form = <UserForm user={this.state.userInfo} updateUser={this.updateUser} toggleEdit={this.toggleEdit}/>;
     } else {
       form = <UserProfile user={this.state.userInfo} updateUser={this.updateUser} toggleEdit={this.toggleEdit}/>;
     }
