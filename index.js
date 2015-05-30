@@ -3,6 +3,10 @@ import assign from 'lodash/object/assign'
 import UserForm from './user-profile/user-form.js';
 import UserProfile from './user-profile/user-profile.js';
 import UserStore from './user-profile/user-store.js';
+import AppActions from './user-profile/app-actions.js';
+
+var appActions = new AppActions();
+var userStore = new UserStore();
 
 class App extends React.Component {
   constructor() {
@@ -20,11 +24,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    UserStore.listen(this.onStoreChange);
+    userStore.listen(this.onStoreChange);
   }
 
   componentDidUnmount() {
-    UserStore.unlisten(this.onStoreChange);
+    userStore.unlisten(this.onStoreChange);
   }
 
   onStoreChange() {
@@ -32,14 +36,14 @@ class App extends React.Component {
   }
 
   getStateFromStore() {
-    var state = UserStore.getUser()
+    var state = userStore.getUser()
 
     return state;
   }
 
   updateUser(user) {
     if (user) {
-      UserStore.setUser(user);
+      appActions.updateUser(user);
     }
   }
 
