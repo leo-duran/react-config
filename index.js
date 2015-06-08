@@ -4,6 +4,7 @@ import UserForm from './user-profile/user-form.js';
 import UserProfile from './user-profile/user-profile.js';
 import userStore from './user-profile/user-store.js';
 import appActions from './user-profile/app-actions.js';
+import UserList from './user-profile/user-list.js';
 
 class App extends React.Component {
   constructor() {
@@ -60,6 +61,7 @@ class App extends React.Component {
     return (
       <div>
         {form}
+        <div><UserList /></div>
       </div>)
   }
 }
