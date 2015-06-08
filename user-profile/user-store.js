@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import assign from 'lodash/object/assign'
 import EventEmitter from 'events'
-import clone from 'lodash/lang/clone';
-import appDispatcher from './app-dispatcher.js';
+import clone from 'lodash/lang/clone'
+import appDispatcher from './app-dispatcher.js'
 
 var _user = {firstName: '', lastName: '', email: ''};
 
@@ -31,6 +31,14 @@ userStore.dispatchToken = appDispatcher.register(function(payload){
       userStore.emit('change');
 
       break;
+  }
+});
+
+userStore.dispatchToken = appDispatcher.register(function(payload){
+  switch(payload.actionType) {
+    case 'CREATE_USER_SUCCESS':
+      _user = payload.user;
+      userStore.emit('change');
   }
 });
 
